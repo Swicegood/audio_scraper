@@ -1,0 +1,36 @@
+import asyncio
+import audio_scraper
+import paramiko
+
+def upload_files_to_server(files, remote_path):
+    # Update these with your shared hosting server credentials
+    hostname = 'your_shared_hosting_server.com'
+    username = 'your_username'
+    password = 'your_password'
+    port = 22  # Default SFTP port, change if necessary
+
+    # Connect to the server using SFTP
+    transport = paramiko.Transport((hostname, port))
+    transport.connect(username=username, password=password)
+    sftp = paramiko.SFTPClient.from_transport(transport)
+
+    # Write the file list to a file
+    with open('all_files.txt', 'w') as f:
+        for file in files:
+            f.write(file + '\n')
+
+    # Upload the file to the remote server
+    sftp.put('all_files.txt', remote_path)
+
+    # Close the SFTP connection
+    sftp.close()
+    transport.close()
+
+
+async def main():
+    all_files = await audio_scraper.get_all_files()
+    print("Total files found:", len(all_files))
+
+if __name__ == "__main__":
+    asyncio.run(main())
+
