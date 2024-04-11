@@ -4,6 +4,18 @@ import asyncio
 import audio_scraper
 from ftplib import FTP
 
+BADFILESFILE = 'bad_files.txt'
+
+def remove_bad_files(files):
+    # Read the bad files from the file
+    with open(BADFILESFILE, 'r') as f:
+        bad_files = f.readlines()
+    bad_files = [x.strip() for x in bad_files]
+
+    # Remove the bad files from the list
+    files = [file for file in files if file not in bad_files]
+    return files
+
 def upload_files_to_server(files, remote_path):
     # Read configuration file for credentials
     config = configparser.ConfigParser()
@@ -31,7 +43,12 @@ def upload_files_to_server(files, remote_path):
 
 async def main():
     all_files = await audio_scraper.get_all_files()
-    print("Total files found:", len(all_files))
+    total_files = len(all_files)
+    print("Total files found:", total_files)
+    all_files = remove_bad_files(all_files)
+    print("Total files after removing bad files:", len(all_files))
+    print("Bad files removed ", total_files - len(all_files))
+    print("Uploading files to server...")
     upload_files_to_server(all_files, "/wp/wp-content/uploads/all_files.txt")
 
 if __name__ == "__main__":

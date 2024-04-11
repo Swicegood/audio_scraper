@@ -1,1 +1,5 @@
 config.ini
+all_files.txt
+*.json
+cache/*.json
+*.pvc
