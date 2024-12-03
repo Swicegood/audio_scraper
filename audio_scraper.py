@@ -28,7 +28,7 @@ BASE_URLS = [
   'https://audio.iskcondesiretree.com/02_-_ISKCON_Swamis/ISKCON_Swamis_-_A_to_C/His_Holiness_Bir_Krishna_Goswami/Various/',  
 ]
 
-CACHE_FILE = '/app/cache/mp3_files_cache.json'
+CACHE_FILE = 'cache/mp3_files_cache.json'
 CACHE_DURATION = 7 * 24 * 60 * 60  # One week
 
 
