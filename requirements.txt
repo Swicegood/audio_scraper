@@ -1,3 +1,4 @@
 requests
 paramiko
 beautifulsoup4
+pyyaml
